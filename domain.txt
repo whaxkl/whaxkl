@@ -1,0 +1,78 @@
+server {
+        listen       443 ssl;
+        server_name  buy.sihestore.cn;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+        ssl_certificate      fullchain.cer;
+        ssl_certificate_key  ketoweightloss.vip.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+#缓存html页面，可以缓存伪静态【这是亮点！】
+        location ~ .*\.html$ {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              #状态为200、302的缓存1天
+              proxy_cache_valid 200 302 1d;
+              #状态为301的缓存2天
+              proxy_cache_valid 301 2d;
+              proxy_cache_valid any 1m;
+              #浏览器过期时间设置4小时
+              expires 4h;
+              #忽略头部禁止缓存申明，类似与CDN的强制缓存功能
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              #在header中插入缓存状态，命中缓存为HIT，没命中则为MISS
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #图片缓存设置，如果不是使用了Nginx缩略图功能，这个可以不用，效果不明显
+        location ~ .*\.(gif|jpg|png|svg|css|js|ico)(.*) {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 30d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 30d;
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #动态页面直接放过不缓存
+        location ~ .*\.(php)(.*){
+             proxy_pass http://127.0.0.1:8088;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+#缓存以斜杠结尾的页面，类似于CDN的目录缓存，如果存在问题请取消缓存机制
+        location ~ ^(.*)/$ {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_redirect off;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_set_header Host $host;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 1d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 1h;
+                          proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+location / {
+             proxy_pass http://127.0.0.1:8088;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+    }

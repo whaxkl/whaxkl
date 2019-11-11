@@ -1,0 +1,39 @@
+<div class="col-12 mb-2 pb-1">
+                        <h6>Pay with Credit or Debit Card</h6>
+                        <span style="font-size:12px;">We Accept</span>
+                        <img src="/static/front/image/credit-card.png" width="176" height="25" class="pl-3">
+                    </div>
+                    <div class="col-12 mb-2 pb-1">
+                        <div class="inner-addon left-addon">
+                            <i class="fa fa-lock"></i>
+                            <input id="card-number" pattern=".*" type="tel" alt="Credit Card Number" class="form-control required" name="card_number" minlength="13" maxlength="19" placeholder="Card Number" autocomplete="cc-number" required>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2 pb-1">
+                        <select id="card-month" name="card_month" class="form-control required" autocomplete="cc-exp-month" required="">
+                            <option value="" disabled="" selected="">Exp Month</option>
+                            <option value="01">(01) January</option>
+                            <option value="02">(02) February</option>
+                            <option value="03">(03) March</option>
+                            <option value="04">(04) April</option>
+                            <option value="05">(05) May</option>
+                            <option value="06">(06) June</option>
+                            <option value="07">(07) July</option>
+                            <option value="08">(08) August</option>
+                            <option value="09">(09) September</option>
+                            <option value="10">(10) October</option>
+                            <option value="11">(11) November</option>
+                            <option value="12">(12) December</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select id="card-year" name="card_year" class="form-control required" autocomplete="cc-exp-year" required="">
+                            <option value="" disabled="" selected="">Exp Year</option>
+                            <option value="19">2019</option><option value="20">2020</option><option value="21">2021</option><option value="22">2022</option><option value="23">2023</option><option value="24">2024</option><option value="25">2025</option><option value="26">2026</option><option value="27">2027</option><option value="28">2028</option><option value="29">2029</option><option value="30">2030</option><option value="31">2031</option><option value="32">2032</option><option value="33">2033</option>							</select>
+                    </div>
+                    <div class="col-8">
+                        <input id="card-cvv" type="tel" placeholder="CVV" alt="CVV2" class="form-control required" name="card_cvv" minlength="3" maxlength="4" autocomplete="cc-csc" required="">
+                    </div>
+                    <div class="col-4">
+                        <a href="/static/front/image/cvvnum.jpg" data-fancybox="images" class="fancybox" style="font-size:10px;">What's This?</a><br><br>
+                    </div>

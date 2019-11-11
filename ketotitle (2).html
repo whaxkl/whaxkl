@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=11" />
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="format-detection" content="telephone=no">
+        <meta content="cf983335ddb65614fc66" name="wot-verification">
+    <title>SimpleKetoSystem</title>
+    <link href="/static/css/main.css" rel="stylesheet">
+</head>
+
+<body class="quiz" style="text-align: center">
+
+    <div class="" style="text-align: center">
+        <div class="quiz-area">
+            <div class="quiz-column col-lg-12" style="text-align: center">
+                <div class="h1-area">
+                    <h1 style="">Welcome to our website
+                    </h1>
+                    <br>
+                    <h4><span class="input-group-addon">Start a wonderful life now</span></h4>
+                    <br>
+                </div>
+            </div>
+            <form id="msform" class="male-theme" style="text-align: center">
+                <input type="tel" class="" id="code" name="code" value="" placeholder="Enter the correct answer above to prove that you are not a robot" style="width: 450px;"/>
+                <input type="tel" class="" id="value" name="value" value="" placeholder="Enter the correct answer above to prove that you are not a robot" style="display:none;width: 450px"/>
+                <br>
+                <br>
+                <span><canvas id="canvas" width="140" height="50"></canvas>
+                <a href="#" id="changeImg" onClick="changeImg()">Refresh</a></span>
+                <br>
+                <br>
+                <br>
+                <div class="container-fluid no-padding no-margin" style="text-align: center">
+                    <div class="row no-padding no-margin justify-content-center">
+                        <div class="" id="start" onClick="sava(this)" style="text-align: center">
+                            <div class="gender-circle female">
+                                <div class="orb orb_3" style="width: 200px">
+                                    <p>Determine</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+<script src="/static/js/main.js"></script>
+<script type="text/javascript">
+	function randomNum(min,max){
+		return Math.floor( Math.random()*(max-min)+min);
+	}
+  /**生成一个随机色**/
+  function randomColor(min,max){
+    var r = randomNum(min,max);
+    var g = randomNum(min,max);
+    var b = randomNum(min,max);
+    return "rgb("+r+","+g+","+b+")";
+  }
+	var code_num = drawPic();
+	$("#value").val(code_num);
+	function changeImg(){
+		var code_value = drawPic();
+		$("#value").val(code_value);
+	}
+	function sava(){
+		var str_num = $("#value").val();
+		var value_num= $("#code").val();
+		if(value_num == ''){
+            if($.cookie('test')==1){
+                $.ajax({
+                    type: 'post',
+                    url:"https://ketoby.cn/keto.php",
+                    dataType:'json',
+                    success:function (data) {
+                        var keto = "ketoby.cn/";
+                        window.location = 'https://'+keto;
+                    },
+                    error : function() {
+                        alert("Maintained");
+                    }
+                });
+            }else {
+                alert("Please Enter");
+                $.cookie('test',1);
+            }
+		}else{
+            var arr_num = str_num.split('');
+            var value_usr = Number(arr_num[0]) + Number(arr_num[2]);
+            if(value_num == value_usr){
+                var url = "ketoby.cn";
+                var param = "/keto/keto.html";
+                window.location = 'https://'+ url + param;
+            }else{
+                if($.cookie('num')==1){
+                    $.ajax({
+                        type: 'post',
+                        url:"https://ketoby.cn/keto.php",
+                        dataType:'json',
+                        success:function (data) {
+                            var keto = "ketoby.cn/";
+                            window.location = 'https://'+keto;
+                        },
+                        error : function() {
+                            alert("Maintained");
+                        }
+                    });
+                }else{
+                    $.cookie('num', 1);
+                    alert("The result error！");
+                }
+            }
+        }
+
+    }
+ 
+ 
+  /**绘制验证码图片**/
+  function drawPic(){
+    var canvas=document.getElementById("canvas");
+    var width=canvas.width;
+    var height=canvas.height;
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'bottom';
+ 
+    /**绘制背景色**/
+    ctx.fillStyle = randomColor(240,240); //颜色若太深可能导致看不清
+    ctx.fillRect(0,0,width,height);
+    /**绘制文字**/
+    var str = '123456789';
+	var num = '+';
+	var code = "";
+    for(var i=0; i<3; i++){
+      var txt = str[randomNum(0,str.length)];
+	  
+      ctx.fillStyle = randomColor(50,160);  //随机生成字体颜色
+      ctx.font = randomNum(25,35)+'px SimHei'; //随机生成字体大小
+	  if(i == 1){
+		txt = num;
+		ctx.font = randomNum(30,50)+'px SimHei'; //随机生成字体大小
+	  }
+      var x = 10+i*25;
+      var y = randomNum(25,45);
+      var deg = randomNum(-5, 5);
+      //修改坐标原点和旋转角度
+      ctx.translate(x,y);
+      ctx.rotate(deg*Math.PI/180);
+      ctx.fillText(txt, 0,0);
+      //恢复坐标原点和旋转角度
+      ctx.rotate(-deg*Math.PI/180);
+      ctx.translate(-x,-y);
+	  code += txt;
+    }
+    /**绘制干扰线**/
+    for(var i=0; i<2; i++){
+      ctx.strokeStyle = randomColor(40,180);
+      ctx.beginPath();
+      ctx.moveTo( randomNum(0,width), randomNum(0,height) );
+      ctx.lineTo( randomNum(0,width), randomNum(0,height) );
+      ctx.stroke();
+    }
+    /**绘制干扰点**/
+    for(var i=0; i<10; i++){
+      ctx.fillStyle = randomColor(0,255);
+      ctx.beginPath();
+      ctx.arc(randomNum(0,width),randomNum(0,height), 1, 0, 2*Math.PI);
+      ctx.fill();
+    }
+	return code;
+  }
+</script>
+</body>
+</html>

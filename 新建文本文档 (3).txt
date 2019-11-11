@@ -1,0 +1,50 @@
+[Tue Oct 22 08:43:20 UTC 2019] Create account key ok.
+[Tue Oct 22 08:43:20 UTC 2019] Registering account
+[Tue Oct 22 08:43:21 UTC 2019] Registered
+[Tue Oct 22 08:43:21 UTC 2019] ACCOUNT_THUMBPRINT='VAphisE4AE5xEo-Gd-4TJBEqFLPCXGXxEmC9Rka863M'
+[Tue Oct 22 08:43:21 UTC 2019] Creating domain key
+[Tue Oct 22 08:43:21 UTC 2019] The domain key is here: /home/ec2-user/.acme.sh/ketoweightloss.vip/ketoweightloss.vip.key
+[Tue Oct 22 08:43:21 UTC 2019] Single domain='ketoweightloss.vip'
+[Tue Oct 22 08:43:21 UTC 2019] Getting domain auth token for each domain
+[Tue Oct 22 08:43:22 UTC 2019] Getting webroot for domain='ketoweightloss.vip'
+[Tue Oct 22 08:43:22 UTC 2019] Verifying: ketoweightloss.vip
+[Tue Oct 22 08:43:25 UTC 2019] Success
+[Tue Oct 22 08:43:25 UTC 2019] Verify finished, start to sign.
+[Tue Oct 22 08:43:25 UTC 2019] Lets finalize the order, Le_OrderFinalize: https://acme-v02.api.letsencrypt.org/acme/finalize/69981093/1338811482
+[Tue Oct 22 08:43:25 UTC 2019] Download cert, Le_LinkCert: https://acme-v02.api.letsencrypt.org/acme/cert/03744cc5fe385e5f428cec0c34aba0c100ac
+[Tue Oct 22 08:43:25 UTC 2019] Cert success.
+-----BEGIN CERTIFICATE-----
+MIIFXTCCBEWgAwIBAgISA3RMxf44Xl9CjOwMNKugwQCsMA0GCSqGSIb3DQEBCwUA
+MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD
+ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xOTEwMjIwNzQzMjVaFw0y
+MDAxMjAwNzQzMjVaMB0xGzAZBgNVBAMTEmtldG93ZWlnaHRsb3NzLnZpcDCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPNCgYGzwksdbWT66VN2AiWQajej
+IoXEIk8piIzeYLOkPmyjgNJAMuBo/Ghv2z4pJUxvMMQ004ZrINoch6rsCiKWFzP8
+7sM9fuoy/XL+vmtohdh0xsehBSioram24dhXLUZr7X30YeoXR2xLLO4ZUAro+PMG
+7yNlZo6glVgb9wmXD/aWLr+YGrdpK7NxR+QvPoMXdfjH1Ea/MtbmRLQp9Zy+3PEz
+kceUaXH1KPzjXOA2budfi461hsMItceXRRhFRCZ75JRoU4HgB9NhsVzxnkWOm1PA
+3tZZMgSy7R5gQ/il7TU0ldvGn5eWPAMjHWMQxPjAFai0v4wLarOfDRA9pBsCAwEA
+AaOCAmgwggJkMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYI
+KwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUc4IspZ+lMaHwwwZjS1E6
+6x8I8v4wHwYDVR0jBBgwFoAUqEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUH
+AQEEYzBhMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5
+cHQub3JnMC8GCCsGAQUFBzAChiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5
+cHQub3JnLzAdBgNVHREEFjAUghJrZXRvd2VpZ2h0bG9zcy52aXAwTAYDVR0gBEUw
+QzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDov
+L2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEFBgorBgEEAdZ5AgQCBIH2BIHzAPEAdwDw
+laRZ8gDRgkAQLS+TiI6tS/4dR+OZ4dA0prCoqo6ycwAAAW3yopnIAAAEAwBIMEYC
+IQCcQhU8cdARzlo4imzaxOZ0pojydC8CjdLSkjbrbD0HrQIhANMKpBtt1kAhyCpv
+HHINYDUSTx5ioQtpP4/+sTvRzcDEAHYAsh4FzIuizYogTodm+Su5iiUgZ2va+nDn
+sklTLe+LkF4AAAFt8qKaBQAABAMARzBFAiBRcRT98BRqpxd6y4FxSFmzOzXWaAqI
+V8/MR6oqAISK7AIhAN8Ctx8FkYl9Z5DjSHkt5MU23rEAybyIFk0oviQaJu+0MA0G
+CSqGSIb3DQEBCwUAA4IBAQAopRMSkEcEqWj1SswryYYIr4dANT1t/xvClFj6UfR6
+JCzseQuQ0depZt9pvKbw9OBaYtluunkUNBatK9F6/eAZXv5W9OA1j9ulMMHIDNLO
+Hs/QZB/gq/9ntQJOSUyaybwoN0X4iScHnY0OTAhgOG0O+r9hdJ6niYDAq2c4FfDC
+IecTRCRVsx0i204jjvtjrHhr4+/fLYnbeiMERMUqkqKkklDt/o9kYUktAp0siNHy
+LVwuZk8uZIYyzt6OuZbkRDf3Wq2JE4L9qJOR2uL0cbHHZVITqnoHEO+RfzSTB7g5
+aNBjDXY9R7EhROQK/4fv77/+ORCtGt0egCQ1p+Tk8+fc
+-----END CERTIFICATE-----
+[Tue Oct 22 08:43:25 UTC 2019] Your cert is in  /home/ec2-user/.acme.sh/ketoweightloss.vip/ketoweightloss.vip.cer 
+[Tue Oct 22 08:43:25 UTC 2019] Your cert key is in  /home/ec2-user/.acme.sh/ketoweightloss.vip/ketoweightloss.vip.key 
+[Tue Oct 22 08:43:25 UTC 2019] The intermediate CA cert is in  /home/ec2-user/.acme.sh/ketoweightloss.vip/ca.cer 
+[Tue Oct 22 08:43:25 UTC 2019] And the full chain certs is there:  /home/ec2-user/.acme.sh/ketoweightloss.vip/fullchain.cer 

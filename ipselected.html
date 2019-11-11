@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
+</head>
+
+<body>
+<div class="layui-collapse">
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">ip真人度记录</h2>
+        <div class="layui-colla-content layui-none"><table id="demo" lay-filter="test"></table></div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">ketoby ip访问记录</h2>
+        <div class="layui-colla-content layui-none"><table id="mode" lay-filter="test"></table></div>
+    </div>
+</div>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
+<!--您的Layui代码start-->
+<script type="text/javascript">
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element'], function() {
+        var laydate = layui.laydate //日期
+            ,laypage = layui.laypage //分页
+            ,layer = layui.layer //弹层
+            ,table = layui.table //表格
+            ,carousel = layui.carousel //轮播
+            ,upload = layui.upload //上传
+            ,element = layui.element; //元素操作 等等...
+
+        /*layer弹出一个示例*/
+        layer.msg('Hello World');
+        table.render({
+            elem: '#demo'
+            //,height: 312
+            ,url: 'http://54.187.192.81:8080/iptruemanlist.php' //数据接口
+            ,page: false //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'ip', title: 'ip', width:160}
+                ,{field: 'ip_address', title: 'ip地址', width:250}
+                ,{field: 'url', title: '访问链接', width:250}
+                ,{field: 'ua', title: 'ua', width: 802}
+                ,{field: 'trueman', title: '真人度', width: 100, sort: true}
+                ,{field: 'creat_time', title: '访问时间', width: 200, sort: true}
+            ]]
+        });
+        table.render({
+            elem: '#mode'
+            //,height: 312
+            ,url: 'http://54.187.192.81:8080/ipselectlist.php' //数据接口
+            ,page: false //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:100, sort: true, fixed: 'left'}
+                ,{field: 'ip', title: 'ip', width:160}
+                ,{field: 'ip_address', title: 'ip地址', width:250}
+                ,{field: 'url', title: '访问链接', width:250}
+                ,{field: 'ua', title: 'ua', width: 802}
+                ,{field: 'trueman', title: '真人度', width: 100, sort: true}
+                ,{field: 'creat_time', title: '访问时间', width: 200, sort: true}
+            ]]
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+cd /mnt
+/mnt/c/Users/Administrator/Desktop/fuwuqi
+ll
+cd d
+
+
+
+server {
+        listen       8080;
+        server_name  www.whaxkl.com;
+        root   /usr/share/nginx/html;
+        location / {
+            index  index.php index.html index.htm;
+            if (!-e $request_filename){
+       rewrite  ^(.*)$  /index.php?s=/$1  last;
+            break;
+                                        }
+            #autoindex  on;
+        }
+        location ~ \.php(.*)$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+#下面两句是给fastcgi权限，可以支持 ?s=/module/controller/action的url访问模式
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+#下面两句才能真正支持 index.php/index/index/index的pathinfo模式
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include        fastcgi_params;
+
+        }
+     }
+
+
+
+sudo /usr/local/nginx/sbin/nginx
+sudo ps -ef| grep fpm
+
+
+
+
+server {
+        listen       8081;
+        server_name  www.whaxkl.com;
+        root /var/www/html/yzchenhong.en.alibaba.com;
+        location / {
+            index  index.php index.html index.htm;
+            if (!-e $request_filename){
+                     rewrite  ^(.*)$  /index.php?s=/$1  last;
+                     break;
+            }
+            #autoindex  on;
+        }
+}
+
+
+location / {
+            root  /var/www/html/ketox/public;
+            index  index.html index.htm index.php;
+            proxy_pass   http://127.0.0.1:8080;
+        }
+        location /plasticitys {
+            proxy_pass http://127.0.0.1:8081;
+        }
+
+
+
+
+

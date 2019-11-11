@@ -1,0 +1,46 @@
+有道翻译仅供参考
+
+isform: 1    隐藏固定值
+csrf_test_name: 49e4a3b23ad844aa0bfcab458de44ece    隐藏固定值
+special_coupon_applied: 0    隐藏固定值
+data[bn]: buy2  产品图片编号 
+data[fn]: 填上你的名
+data[ln]: 填上你的姓
+data[country]: 国家
+state: 城市
+data[address]:  你的地址
+data[zpc]: 邮政编码
+data[city]:  城市
+data[email]:  邮件地址
+data[phone]:  电话号
+opt:   优惠码
+
+
+1 TASKKILL /F /IM chrome.exe
+2 start chrome.exe --args --disable-web-security --user-data-dir
+3 pause
+
+
+mys_ajax_submit('http://192.168.1.18:8080/add?s=form&c=gmbd&m=post', 'myform', '2000', 'http://www.whaxkl.com/front/User/index')
+
+D:\Wamp\php-7.2.23>php-cgi.exe -b 127.0.0.1:9000 -c D:\Wamp\php-7.2.23/php.ini
+http://example.org/
+href="#" onclick="javascript:return false;"
+
+sudo rm -f /usr/local/nginx/conf/.nginx.conf.swp
+
+
+ssl     on;
+     ssl_certificate     /home/ec2-user/server.crt;#配置证书位置
+     ssl_certificate_key  /home/ec2-user/server.key;#配置秘钥位置
+     #ssl_client_certificate ca.crt;#双向认证
+     #ssl_verify_client on; #双向认证
+     ssl_session_timeout  5m;
+     ssl_protocols  SSLv2 SSLv3 TLSv1;
+     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+     ssl_prefer_server_ciphers   on;
+
+
+sudo vi /usr/local/nginx/conf/fastcgi_params
+
+E2F5-8853-B2FF-C3AB 85B5-DB5F-A18E-7823 2E8A-1C81-1E81-9E1C 8613-E306-6974-9ECE
