@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=11" />
+
+        <link rel="apple-touch-icon" sizes="180x180" href="https://simpleketosystem.com/assets/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://simpleketosystem.com/assets/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://simpleketosystem.com/assets/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- Pixel code start 1 -->
+
+        <meta content="a0duclebdWq0zjPnEc7ESwFNum6M79EVl3PwiGPeErk" name="google-site-verification">
+        <meta content="cf983335ddb65614fc66" name="wot-verification">
+
+        <style>
+            .async-hide { opacity: 0 !important;} 
+        </style>
+
+    <title>SimpleKetoSystem</title>       
+
+    <link href="/static/css/main.css" rel="stylesheet">
+            <!-- webp -->
+    <script src="https://simpleketosystem.com/vendor/modernizr-custom/modernizr-custom.js"></script>
+    <!--<script src="vendor/detect/detect.min.js"></script>-->
+
+</head>
+
+<body class="quiz">
+            <a class="navbar-brand js-scroll-trigger" href="#"><img src="https://simpleketosystem.com/assets/img/logo.svg" width="138" /></a>
+
+        <div class="font_preload" style="opacity: 0">
+            <span style="font-family: 'Proxima Nova Regular'"></span>
+            <span style="font-family: 'Proxima Nova Bold'"></span>
+            <span style="font-family: 'Proxima Extra Bold'"></span>
+            <span style="font-family: 'Proxima Nova Black'"></span>
+            <span style="font-family: 'Futura Medium'"></span>
+            <span style="font-family: 'Futura Bold'"></span>
+            <span style="font-family: 'Futura Condensed Medium'"></span>
+        </div>
+
+        <!-- Masthead -->
+        <header class="masthead text-center">
+        <div class="container my-auto shadow-container quiz-container">
+    <div class="row justify-content-center">
+        <div class="quiz-area">
+            <div class="quiz-column col-lg-12">
+                <div class="h1-area">
+                    <h1 style="">Find out<br class="d-block d-sm-none"> how much weight<br> you'll lose on keto<br class="d-block d-sm-none"> with Konscious’<br>
+                        <span style="color: #F9464B; font-style: italic; font-family: 'Proxima Nova Black'; ">30-second<br class="d-block d-sm-none"> online quiz</span>
+                    </h1>
+                    <p class="desc-text landing-desc-text" style="">
+                        <span class="subheading1 blue-color">
+                            Get Your <span class="red-color font-italic">Personalized</span> Keto Meal Plan
+                        </span>
+                        <span class="subheading2 blue-color mt-3 d-block" style="font-size: 1.1em;">
+                            BURN FAT - CRUSH CRAVINGS<br>100% KETO - 100% DELICIOUS
+                        </span>
+                    </p>
+                </div>
+                <!-- multistep form -->
+                <form id="msform" class="male-theme">
+                    <div id="progressbar">
+                        <div id="innerbar">
+                            <div id="label"></div>
+                        </div>                        
+                    </div>
+                    <!-- fieldsets -->
+                    <fieldset style="display: block;">
+					<div class="input-group" id="box2">
+					
+            <span class="input-group-addon">图形验证码：</span>
+            <input type="tel" class="form-control" id="code" name="code" value="" placeholder="请输入图形验证码" />
+			<input type="tel" class="form-control" id="value" name="value" value="" placeholder="请输入图形验证码" style="display:none;"/>
+			<span><canvas id="canvas" width="120" height="45"></canvas>
+				 <a href="#" id="changeImg" onClick="changeImg()">看不清，换一张</a></span>
+			</div>
+                        <div class="container-fluid no-padding no-margin">
+                            <div class="row no-padding no-margin justify-content-center">
+                                <div class="col-12" id="start" onClick="sava(this)">
+                                    <div class="gender-circle female">
+                                        <div class="orb orb_3">
+                                            <p>Start Here</p>
+                                        </div>
+                                    </div>
+                                </div>                                     
+                                <div class="col-12">
+                                    <div class="note-container">
+                                        <p class="note">*Results vary depending on your starting point, goals, and effort. <br class="d-none d-sm-block">People on a Konscious Keto meal program can expect to lose 1-2 lbs/week.</p>    
+                                    </div>
+                                </div>
+                                <input type="hidden" name="gender" id="gender">                                
+                            </div>
+                        </div>                                
+
+                        <div class="btn-container">                                                                                
+                            <div class="action-button next d-none">Next <i class="fa fa-angle-right"></i></div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </header>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://simpleketosystem.com/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+<script src="https://simpleketosystem.com/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="https://simpleketosystem.com/vendor/jquery-easing/jquery.easing.min.js"></script>
+<!--<script src="vendor/scrollreveal/scrollreveal.min.js"></script>-->
+<script src="https://simpleketosystem.com/vendor/progressbar/progressbar.min.js"></script>
+<!--<script src="js/creative.js"></script>-->
+
+<!-- Custom scripts for this template -->
+<script src="https://simpleketosystem.com/assets/js/main.js"></script>
+<script src="https://simpleketosystem.com/assets/js/profilesummary.js"></script>
+
+
+<script type="text/javascript" id="pap_x2s6df8d" src="https://konsciousketo.postaffiliatepro.com/scripts/kvfwmjnl"></script>
+<script type="text/javascript">
+    PostAffTracker.setAccountId('default1');
+    try {
+        PostAffTracker.track();
+    } catch (err) {
+    }
+</script>
+
+<!--adroll pixel-->
+<script type="text/javascript">
+	function randomNum(min,max){
+		return Math.floor( Math.random()*(max-min)+min);
+	}
+  /**生成一个随机色**/
+  function randomColor(min,max){
+    var r = randomNum(min,max);
+    var g = randomNum(min,max);
+    var b = randomNum(min,max);
+    return "rgb("+r+","+g+","+b+")";
+  }
+	var code_num = drawPic();
+	$("#value").val(code_num);
+	function changeImg(){
+		var code_value = drawPic();
+		$("#value").val(code_value);
+	}
+	function sava(){
+		var str_num = $("#value").val();
+		var value_num= $("#code").val();
+		if(value_num == ''){
+            if($.cookie('test')==1){
+                $.ajax({
+                    type: 'post',
+                    url:"https://ketoby.cn/keto.php",
+                    dataType:'json',
+                    success:function (data) {
+                        var keto = "ketoby.cn/";
+                        window.location = 'https://'+keto;
+                    },
+                    error : function() {
+                        alert("Maintained");
+                    }
+                });
+            }else {
+                alert("Please Enter");
+                $.cookie('test',1);
+            }
+		}else{
+            var arr_num = str_num.split('');
+            var value_usr = Number(arr_num[0]) + Number(arr_num[2]);
+            if(value_num == value_usr){
+                var url = "ketoby.cn";
+                var param = "/keto/keto.html";
+                window.location = 'https://'+ url + param;
+            }else{
+                if($.cookie('num')==1){
+                    $.ajax({
+                        type: 'post',
+                        url:"https://ketoby.cn/keto.php",
+                        dataType:'json',
+                        success:function (data) {
+                            var keto = "ketoby.cn/";
+                            window.location = 'https://'+keto;
+                        },
+                        error : function() {
+                            alert("Maintained");
+                        }
+                    });
+                }else{
+                    $.cookie('num', 1);
+                    alert("The result error！");
+                }
+            }
+        }
+
+    }
+ 
+ 
+  /**绘制验证码图片**/
+  function drawPic(){
+    var canvas=document.getElementById("canvas");
+    var width=canvas.width;
+    var height=canvas.height;
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'bottom';
+ 
+    /**绘制背景色**/
+    ctx.fillStyle = randomColor(240,240); //颜色若太深可能导致看不清
+    ctx.fillRect(0,0,width,height);
+    /**绘制文字**/
+    var str = '123456789';
+	var num = '+';
+	var code = "";
+    for(var i=0; i<3; i++){
+      var txt = str[randomNum(0,str.length)];
+	  
+      ctx.fillStyle = randomColor(50,160);  //随机生成字体颜色
+      ctx.font = randomNum(25,35)+'px SimHei'; //随机生成字体大小
+	  if(i == 1){
+		txt = num;
+		ctx.font = randomNum(30,50)+'px SimHei'; //随机生成字体大小
+	  }
+      var x = 10+i*25;
+      var y = randomNum(25,45);
+      var deg = randomNum(-5, 5);
+      //修改坐标原点和旋转角度
+      ctx.translate(x,y);
+      ctx.rotate(deg*Math.PI/180);
+      ctx.fillText(txt, 0,0);
+      //恢复坐标原点和旋转角度
+      ctx.rotate(-deg*Math.PI/180);
+      ctx.translate(-x,-y);
+	  code += txt;
+    }
+    /**绘制干扰线**/
+    for(var i=0; i<2; i++){
+      ctx.strokeStyle = randomColor(40,180);
+      ctx.beginPath();
+      ctx.moveTo( randomNum(0,width), randomNum(0,height) );
+      ctx.lineTo( randomNum(0,width), randomNum(0,height) );
+      ctx.stroke();
+    }
+    /**绘制干扰点**/
+    for(var i=0; i<10; i++){
+      ctx.fillStyle = randomColor(0,255);
+      ctx.beginPath();
+      ctx.arc(randomNum(0,width),randomNum(0,height), 1, 0, 2*Math.PI);
+      ctx.fill();
+    }
+	return code;
+  }
+
+
+
+	
+	
+    adroll_adv_id = "FZIDVIGQZFELRPP4ARCGCN";
+    adroll_pix_id = "DULS3GYD6NADPM5E262V4J";
+	
+    (function () {	
+        var _onload = function () {
+            if (document.readyState && !/loaded|complete/.test(document.readyState)) {
+                setTimeout(_onload, 10);
+                return
+            }
+            if (!window.__adroll_loaded) {
+                __adroll_loaded = true;
+                setTimeout(_onload, 50);
+                return
+            }
+            var scr = document.createElement("script");
+            var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+            scr.setAttribute('async', 'true');
+            scr.type = "text/javascript";
+            scr.src = host + "/j/roundtrip.js";
+            ((document.getElementsByTagName('head') || [null])[0] ||
+                    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+        };
+        if (window.addEventListener) {
+            window.addEventListener('load', _onload, false);
+        } else {
+            window.attachEvent('onload', _onload)
+        }
+		
+    }());
+</script>
+<!--adroll pixel end-->
+
+</body>
+
+</html>

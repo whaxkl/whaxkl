@@ -1,0 +1,332 @@
+
+user  apache;
+worker_processes  1;
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+	
+    # 开启gzip
+#gzip  on;
+##cache##
+                proxy_connect_timeout 5;
+                proxy_read_timeout 60;
+                proxy_send_timeout 5;
+                proxy_buffer_size 16k;
+                proxy_buffers 4 64k;
+                proxy_busy_buffers_size 128k;
+                proxy_temp_file_write_size 128k;
+                proxy_temp_path /var/www/html/temp_cache1; #临时缓存目录
+                proxy_cache_path /var/www/html/cache1 levels=1:2 keys_zone=cache_one:200m inactive=30d max_size=5g; #设置缓存存放，不懂的参数自己百度搜索下
+                ##end##
+    server {
+        listen       80;
+        server_name  ketoweightloss.vip;
+rewrite ^(.*)$ https://$host$1 permanent; #这里是http跳转https 
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    server {
+        listen       443 ssl;
+        server_name  ketoweightloss.vip;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+        ssl_certificate      /home/ec2-user/.acme.sh/ketoweightloss.vip/fullchain.cer;
+        ssl_certificate_key  /home/ec2-user/.acme.sh/ketoweightloss.vip/ketoweightloss.vip.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+#缓存html页面，可以缓存伪静态【这是亮点！】
+        location ~ .*\.html$ {
+              proxy_pass http://127.0.0.1:8080;
+	      proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              #状态为200、302的缓存1天
+              proxy_cache_valid 200 302 1d;
+              #状态为301的缓存2天
+              proxy_cache_valid 301 2d;
+              proxy_cache_valid any 1m;
+              #浏览器过期时间设置4小时
+              expires 4h;
+              #忽略头部禁止缓存申明，类似与CDN的强制缓存功能
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              #在header中插入缓存状态，命中缓存为HIT，没命中则为MISS
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #图片缓存设置，如果不是使用了Nginx缩略图功能，这个可以不用，效果不明显
+        location ~ .*\.(gif|jpg|png|svg|css|js|ico)(.*) {
+              proxy_pass http://127.0.0.1:8080;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 30d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 30d;
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #动态页面直接放过不缓存
+        location ~ .*\.(php)(.*){
+             proxy_pass http://127.0.0.1:8080;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+        #缓存以斜杠结尾的页面，类似于CDN的目录缓存，如果存在问题请取消缓存机制
+        location ~ ^(.*)/$ {
+              proxy_pass http://127.0.0.1:8080;
+              proxy_redirect off;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 1d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 1h;
+			  proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+       location / {
+             proxy_pass http://127.0.0.1:8080;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+       }
+
+    }
+server {
+        listen       443 ssl;
+        server_name  buy.sihestore.cn;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+        ssl_certificate      /home/ec2-user/.acme.sh/buy.sihestore.cn/fullchain.cer;
+        ssl_certificate_key  /home/ec2-user/.acme.sh/buy.sihestore.cn/buy.sihestore.cn.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+#缓存html页面，可以缓存伪静态【这是亮点！】
+        location ~ .*\.html$ {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              #状态为200、302的缓存1天
+              proxy_cache_valid 200 302 1d;
+              #状态为301的缓存2天
+              proxy_cache_valid 301 2d;
+              proxy_cache_valid any 1m;
+              #浏览器过期时间设置4小时
+              expires 4h;
+              #忽略头部禁止缓存申明，类似与CDN的强制缓存功能
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              #在header中插入缓存状态，命中缓存为HIT，没命中则为MISS
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #图片缓存设置，如果不是使用了Nginx缩略图功能，这个可以不用，效果不明显
+        location ~ .*\.(gif|jpg|png|svg|css|js|ico)(.*) {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_redirect off;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 30d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 30d;
+              proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+        #动态页面直接放过不缓存
+        location ~ .*\.(php)(.*){
+             proxy_pass http://127.0.0.1:8088;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+#缓存以斜杠结尾的页面，类似于CDN的目录缓存，如果存在问题请取消缓存机制
+        location ~ ^(.*)/$ {
+              proxy_pass http://127.0.0.1:8088;
+              proxy_redirect off;
+              proxy_cache_key $host$uri$is_args$args;
+              proxy_set_header Host $host;
+              proxy_cache cache_one;
+              proxy_cache_valid 200 302 1d;
+              proxy_cache_valid 301 1d;
+              proxy_cache_valid any 1m;
+              expires 1h;
+                          proxy_ignore_headers "Cache-Control" "Expires" "Set-Cookie";
+              add_header Nginx-Cache "$upstream_cache_status";
+        }
+location / {
+             proxy_pass http://127.0.0.1:8088;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+    }
+server {
+        listen       443 ssl;
+        server_name  test.KETOWEIGHTLOSS.VIP;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+        ssl_certificate      /home/ec2-user/.acme.sh/buy.sihestore.cn/fullchain.cer;
+        ssl_certificate_key  /home/ec2-user/.acme.sh/buy.sihestore.cn/buy.sihestore.cn.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+location / {
+             proxy_pass http://127.0.0.1:8089;
+             proxy_set_header        Host $host;
+             proxy_set_header        X-Real-IP $remote_addr;
+             proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+}
+server {
+        listen       8080;
+        server_name  ketoweightloss.vip;
+        
+location / {
+	    root   /var/www/html/ketox/public;
+            index  index.php index.html index.htm;
+            if (!-e $request_filename){
+       rewrite  ^(.*)$  /index.php?s=/$1  last;
+            break;
+            }
+            #autoindex  on;
+        }
+        location ~ \.php(.*)$ {
+root /var/www/html/ketox/public;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+#下面两句是给fastcgi权限，可以支持 ?s=/module/controller/action的url访问模式
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+#下面两句才能真正支持 index.php/index/index/index的pathinfo模式
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include        fastcgi_params;
+
+        }
+     }
+server {
+        listen       8088;
+        server_name  buy.sihestore.cn;
+        location / {
+	    root /var/www/html/yzchenhong;
+            index  index.html index.htm;
+            # autoindex  on;
+        }
+}
+server {
+        listen       8089;
+        server_name  test.KETOWEIGHTLOSS.VIP;
+        location / {
+            root /var/www/html/blackwhite;
+            index  index.html index.htm;
+            # autoindex  on;
+        }
+location ~ \.html(.*)$ {
+root /var/www/html/blackwhite;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+#下面两句是给fastcgi权限，可以支持 ?s=/module/controller/action的url访问模式
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+#下面两句才能真正支持 index.php/index/index/index的pathinfo模式
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include        fastcgi_params;
+
+        }
+
+}
+
+}

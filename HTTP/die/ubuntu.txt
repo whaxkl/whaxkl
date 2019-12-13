@@ -1,0 +1,6 @@
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install nginx
+https://www.jianshu.com/p/7ed70c3c827d      ubuntu lnmp安装
+
+https://www.jianshu.com/p/b47d862bceeb      ubuntu https配置
